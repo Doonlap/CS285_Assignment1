@@ -1,0 +1,44 @@
+[
+    {
+        "Price":"3000",
+        "Airline":"Doonlap way",
+        "Take_off":"05.00 am",
+        "Landing":"05.00 pm",
+        "Stops":"12 Hours"
+    },
+    {
+        "Price":"2500",
+        "Airline":"Lazy Fat cat way",
+        "Take_off":"05.00 am",
+        "Landing":"05.00 pm",
+        "Stops":"12 Hours"
+    },          
+    {
+        "Price":"2000",
+        "Airline":"CSTU way",
+        "Take_off":"12.00 pm",
+        "Landing":"04.00 pm",
+        "Stops":"4 Hours"
+    },
+    {
+        "Price":"1500",
+        "Airline":"Do you know da way",
+        "Take_off":"06.00 pm",
+        "Landing":"01.00 am",
+        "Stops":"7 Hours"
+    },
+    {
+        "Price":"1000",
+        "Airline":"Am way",
+        "Take_off":"08.00 am",
+        "Landing":"03.00 pm",
+        "Stops":"7 Hours"
+    },
+    {
+        "Price":"30000",
+        "Airline":"Jedi way",
+        "Take_off":"04.00 pm",
+        "Landing":"05.00 am",
+        "Stops":"13 Hours"
+    }
+]

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head> 
+        <meta charset="utf-8"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+        <!-- jQuery library -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <!-- Popper JS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+        <!-- Latest compiled JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+        <title>Search Flights</title>
+    </head>
+
+    <style>
+        body {
+            color:aliceblue;
+            
+            background-image: url('/static/images/giphy.gif');
+            background-size: cover;
+        }
+    </style>
+
+    <body>
+        <div class="container">
+            <form name ="Form" onsubmit="">
+                <h1 style="color:rgb(230, 123, 155);">FLIGHT</h1>
+                <div class = "row">
+                    <div class = "col-sm-4">
+                        <label for="fromCity">Flying From</label><br><br>
+                        <input class="form-control" name="From City" placeholder="From City">
+                    </div>
+                    <div class = "col-sm-4">
+                        <label for="toCity">Flying To</label><br><br>
+                        <input class="form-control" name="To City" placeholder="To City">
+                    </div>
+                    <div class = "col-sm-4">
+                        <br>
+                        <form action = "displayFlights.html" method="GET">
+                            <input type="radio" name="ticket" value="oneway"> One Way<br>
+                            <input type="radio" name="ticket" value="roundtrip" checked> Round Trip<br>
+                        </form>
+                    </div>
+                </div>
+                <div class = "row">
+                    <div class = "col-sm-4">
+                        <br><label for="departing">Departing</label><br>
+                        <select class = "form-control" name="departing" id="departing">
+                            <option value="bkk">Suvarnabumi (BKK)</option>
+                            <option value="dmk">Don Mueang (DMK)</option>
+                            <option value="cnx">Chiang Mai (CNX)</option>
+                        </select>
+                    </div>
+                    <div class = "col-sm-4">
+                            <br><label for="ruturning">Returning</label><br>
+                            <select class = "form-control" name="returning" id="returning">
+                                <option value="lax">Los Angeles (LAX)</option>
+                                <option value="atl">Hartsfield–Jackson Atlanta (ATL)</option>
+                                <option value="ord">O'Hare (ORD)</option>
+                            </select>
+                        </div>
+                </div>
+                <div class = "row">
+                    <div class = "col-sm-4">
+                        <br><label for="adults">Adults</label><br>
+                        <select class = "form-control" name="returning" id="returning">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3 or more</option>
+                            </select>
+                    </div>
+                    <div class = "col-sm-4">
+                            <br><label for="Cabin">Cabins</label><br>
+                            <select class = "form-control" name="returning" id="returning">
+                                    <option value="1">BUSINESS_CLASS</option>
+                                    <option value="2">FIRST_CLASS</option>
+                                    <option value="3">ECONOMY_CLASS</option>
+                            </select>
+                        </div>
+                </div>
+                <div class = "row">
+                    <div class = "col-sm-4">
+                        <br><button type="button" class="btn btn-primary btn-lg" id = "search" style="color:cornsilk" value="go to display page">Search</button>
+                    </div>
+                </div>
+                <div class = "container">
+                        <div id = "after_seach"></div>
+                </div>
+                <script>
+                        $(document).ready(function(){
+                            $("#search").click(function(){
+                                var choice = $('input[name = ticket]:checked').val();
+                                document.cookie = choice;
+                                if($("#search").text() == "Search"){
+                                    $("#after_seach").show();
+                                    $("#after_seach").load("/test", function(responseTxt, statusTxt, xhr){
+                                         if(statusTxt == "success"){
+                                             alert("Seacrched Successfully");
+                                        }
+                                        if(statusTxt == "error"){
+                                            alert("Error: " + xhr.status + ": " + xhr.statusText);
+                                        }
+                                    });
+                                    $("#search").text('Hide');
+                                }else{
+                                    $("#after_seach").hide();
+                                    $("#search").text('Search');
+                                }
+                            });
+                        });
+                </script>
+            </form>           
+        </div>
+    </body>
+</html>

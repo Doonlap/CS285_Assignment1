@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8"> 
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+        <!-- jQuery library -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <!-- Popper JS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+        <!-- Latest compiled JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+        <title>Display Flight</title>
+        <link rel="stylesheet" href="/static/styles/style-displayFlight-page.css">
+    </head>
+
+    <body>
+         <script>
+            var currentItem = 1;
+            var maxPage;
+            var data = new Promise(function(resolve, reject){
+                $.getJSON('/static/js/List.json', function(data){
+                    resolve(data);
+                });
+            });
+            var cookie = document.cookie;
+            if(cookie == "roundtrip"){
+                cookie = "Round Trip Ticket";
+            }else if(cookie == "oneway"){
+                cookie = "One Way Ticket";
+            }else{
+                cookie = "NOT SELECTED!";
+            }
+            var requestJSONData = function(page){
+                data.then(function(fullfiled){
+                    maxPage = (fullfiled.length/3);
+                    var currentItem = parseInt(page);
+                    currentItem = (currentItem*3)-3;
+                    $("#flightCheck").empty();
+                    $("#flightCheck").append('<font color = "chartreuse">'+(currentItem+3)+ '</font>' +' of '+ fullfiled.length+' shown - '+cookie);
+                    for(var i=currentItem; i<(currentItem+3); i++){
+                        $("#body").append('<tr><td><font color = "blue" size = "5">'+fullfiled[i].Price+' ฿'+'</font></td>'+
+                            '<td>'+fullfiled[i].Airline+'</td>'+
+                            '<td>'+fullfiled[i].Take_off+'</td>'+
+                            '<td>'+fullfiled[i].Landing+'</td>'+
+                            '<td>'+fullfiled[i].Stops+'</td>'+'</tr>');
+                    }
+                });
+            };
+            requestJSONData(currentItem++);
+
+            $(document).ready(function(){
+                $("#next").click(function(){
+                    var check = $("#current").text();
+                    var page = parseInt(check);
+                    page = page+1;
+                    if(page>maxPage){
+                        alert("This page is max page!!");
+                    }else{
+                        $("#body").empty();
+                        requestJSONData(page);
+                        $("#current").text(page);
+                    }
+                });
+
+                $("#prev").click(function(){
+                    var check = $("#current").text();
+                    var page = parseInt(check);
+                    page = page-1;
+                    if(page<1){
+                        alert("This page is the first page!!");
+                    }else{
+                        $("#body").empty();
+                        requestJSONData(page);
+                        $("#current").text(page);
+                    }
+                });
+            });
+        </script>
+        <div class = "container card" style="margin-top: 50px">
+                <h1>Display Flights</h1>               
+                <ul class = "nav nav-tabs" role = "tablist">
+                    <li class = "nav-item">
+                        <a class="nav-link active" data-toggle = "tab" href="#listview">List View</a>
+                    </li>
+                    <li class = "nav-item">
+                        <a class="nav-link" data-toggle = "tab" href="#matrixview">Matrix View</a>
+                    </li>
+                </ul>
+
+                <div class = "tab-content">
+                    <div id = "listview" class = "container tab-pane active"><br>
+                        <h3>List View</h3>
+                        <span id = "flightCheck">
+                            <!--data will be fill in form scripts-->
+                        </span>
+                        <table class = "table table-hover" id = "table">
+                            <thead>
+                                <tr>
+                                    <th>Price</th>
+                                    <th>Airline</th>
+                                    <th>Take-off</th>
+                                    <th>Landing</th>
+                                    <th>Stops (Duration)</th>
+                                </tr>
+                            </thead>
+                            <tbody id = "body">
+                                <!--data will be fill in form scripts-->
+                            </tbody>
+                        </table>                       
+                    </div>
+                    <div id = "matrixview" class = "container tab-pane fade"><br>
+                        <h3>Matrix View</h3>
+                        <p>testing data example2</p>                        
+                    </div>
+                    <div class = "row">
+                        <div class = "col-sm-5"></div>
+                        <div class = "col-sm-2">
+                            <ul class = "pagination">
+                                <li class = "page-item"><a class = "page-link" id = "prev" > < </a></li>
+                                <li class = "page-item"><a class = "page-link" id = "current" > 1 </a></li>
+                                <li class = "page-item"><a class = "page-link" id = "next" > > </a></li>
+                            </ul>
+                        </div>
+                        <div class = "col-sm-5"></div>
+                    </div>
+                </div>
+        </div>
+    </body>
+</html>
